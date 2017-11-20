@@ -852,7 +852,7 @@ class Subsonic_XML_Data
         $xuser->addAttribute('commentRole', 'false');
         $xuser->addAttribute('podcastRole', 'false');
         $xuser->addAttribute('streamRole', 'true');
-        $xuser->addAttribute('jukeboxRole', 'false');
+        $xuser->addAttribute('jukeboxRole', Access::check('localplay', 50, $user->id) ? 'true' : 'false');
         $xuser->addAttribute('shareRole', Preference::get_by_user($user->id, 'share') ? 'true' : 'false');
     }
 
