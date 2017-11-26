@@ -1703,6 +1703,8 @@ class Subsonic_Api
                                 $url = Song::generic_play_url('song', Subsonic_XML_Data::getAmpacheId($i), '', 'api');
                             } elseif (Subsonic_XML_Data::isVideo($i)) {
                                 $url = Song::generic_play_url('video', Subsonic_XML_Data::getAmpacheId($i), '', 'api');
+                            } elseif (Subsonic_XML_Data::isRadio($i)) {
+                                $url = (new Live_Stream(Subsonic_XML_Data::getAmpacheId($i)))->url;
                             }
 
                             if ($url) {

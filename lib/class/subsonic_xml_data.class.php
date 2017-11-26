@@ -49,6 +49,7 @@ class Subsonic_XML_Data
     const AMPACHEID_VIDEO     = 500000000;
     const AMPACHEID_PODCAST   = 600000000;
     const AMPACHEID_PODCASTEP = 700000000;
+    const AMPACHEID_RADIO     = 800000000;
     
     public static $enable_json_checks = false;
 
@@ -96,6 +97,11 @@ class Subsonic_XML_Data
         return $id + Subsonic_XML_Data::AMPACHEID_PODCASTEP;
     }
     
+    public static function getRadioId($id)
+    {
+        return $id + Subsonic_XML_Data::AMPACHEID_RADIO;
+    }
+
     private static function cleanId($id)
     {
         // Remove all al-, ar-, ... prefixs
@@ -168,9 +174,15 @@ class Subsonic_XML_Data
     {
         $id = self::cleanId($id);
 
-        return ($id >= Subsonic_XML_Data::AMPACHEID_PODCASTEP);
+        return ($id >= Subsonic_XML_Data::AMPACHEID_PODCASTEP && $id < Subsonic_XML_Data::AMPACHEID_RADIO);
     }
     
+    public static function isRadio($id)
+    {
+        $id = self::cleanId($id);
+        return ($id >= Subsonic_XML_Data::AMPACHEID_RADIO);
+    }
+
     public static function getAmpacheType($id)
     {
         if (self::isArtist($id)) {
@@ -187,6 +199,8 @@ class Subsonic_XML_Data
             return "podcast";
         } elseif (self::isPodcastEp($id)) {
             return "podcast_episode";
+        } elseif (self::isRadio($id)) {
+            return "live_stream";
         }
         
         return "";
@@ -868,7 +882,7 @@ class Subsonic_XML_Data
     public static function addRadio($xml, $radio)
     {
         $xradio = $xml->addChild('internetRadioStation ');
-        $xradio->addAttribute('id', $radio->id);
+        $xradio->addAttribute('id', self::getRadioId($radio->id));
         $xradio->addAttribute('name', $radio->name);
         $xradio->addAttribute('streamUrl', $radio->url);
         $xradio->addAttribute('homePageUrl', $radio->site_url);
