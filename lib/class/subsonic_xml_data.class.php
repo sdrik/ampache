@@ -960,10 +960,12 @@ class Subsonic_XML_Data
     {
         $xjbox  = $xml->addChild($elementName);
         $status = $localplay->status();
-        $xjbox->addAttribute('currentIndex', 0);    // Not supported
+        $track = isset($status['track']) ? $status['track'] - 1 : 0;
+        $xjbox->addAttribute('currentIndex', $track);
         $xjbox->addAttribute('playing', ($status['state'] == 'play') ? 'true' : 'false');
         $xjbox->addAttribute('gain', $status['volume']);
-        $xjbox->addAttribute('position', 0);    // Not supported
+        $elapsed = isset($status['elapsed']) ? round($status['elapsed']) : 0;
+        $xjbox->addAttribute('position', $elapsed);
 
         return $xjbox;
     }
