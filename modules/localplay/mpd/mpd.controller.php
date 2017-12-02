@@ -521,6 +521,7 @@ class AmpacheMpd extends localplay_controller
         $array['volume']    = $this->_mpd->status['volume'];
         $array['repeat']    = $this->_mpd->status['repeat'];
         $array['random']    = $this->_mpd->status['random'];
+        $array['elapsed']   = $this->_mpd->status['elapsed'];
         $array['track']     = $track + 1;
 
         $playlist_item = $this->_mpd->playlist[$track];
