@@ -340,6 +340,14 @@ class AmpacheMpd extends localplay_controller
         return true;
     } // skip
 
+    public function seek($song, $position)
+    {
+        if (!$this->_mpd->SeekTo($position, $song)) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * This tells MPD to increase the volume by 5
      */

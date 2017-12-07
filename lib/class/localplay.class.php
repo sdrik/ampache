@@ -452,6 +452,11 @@ class Localplay
         return true;
     } // skip
 
+    public function seek($track_id, $position)
+    {
+        return $this->_player->seek($track_id, $position);
+    }
+
     /**
      * next
      * This isn't a required function, it tells the daemon to go to the next
