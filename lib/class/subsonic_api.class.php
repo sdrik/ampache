@@ -1690,7 +1690,33 @@ class Subsonic_Api
                     }
                     break;
                 case 'set':
-                    $localplay->delete_all();
+                    $delete_count = -1;
+                    if ($id) {
+                        if (!is_array($id)) {
+                            $rid   = array();
+                            $rid[] = $id;
+                            $id    = $rid;
+                        }
+
+                        $status = $localplay->status();
+                        if ($status && isset($status['track'])) {
+                            $playlist = $localplay->get();
+                            $current = $playlist[$status['track']-1];
+                            if (isset($current['oid'])) {
+                                for ($i = 0; $i < count($id); $i++)
+                                    if ($current['oid'] == Subsonic_XML_Data::getAmpacheId($id[$i])) {
+                                        $id = array_slice($id, $i+1);
+                                        $delete_count = count($playlist) - $status['track'];
+                                        break;
+                                    }
+                            }
+                        }
+                    }
+                    if ($delete_count >= 0)
+                        for ($i = 0; $i < $delete_count; $i++)
+                            $localplay->delete_track($status['track']);
+                    else
+                        $localplay->delete_all();
                 case 'add':
                     if ($id) {
                         if (!is_array($id)) {
