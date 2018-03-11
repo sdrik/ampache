@@ -53,7 +53,7 @@ UI::show_box_top('<div id="playlist_row_' . $playlist->id . '">' . $title . '</d
 } ?>
 <div id="information_actions">
     <ul>
-    <?php if ($GLOBALS['user']->has_access('50')) {
+    <?php if ($GLOBALS['user']->has_access('50') || ($GLOBALS['user']->has_access('25') && $GLOBALS['user']->id == $playlist->get_user_owner())) {
         ?>
         <li>
             <a onclick="submitNewItemsOrder('<?php echo $playlist->id; ?>', 'reorder_playlist_table', 'track_',
