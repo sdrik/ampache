@@ -24,6 +24,12 @@ $web_path = AmpConfig::get('web_path');
 ?>
 <?php if ($browse->get_show_header()) {
     require AmpConfig::get('prefix') . UI::find_template('list_header.inc.php');
+    $total_duration = $playlist->get_total_duration();
+    $min = floor($total_duration / 60);
+    $sec = sprintf("%02d", $total_duration % 60);
+    $hour = sprintf("%02d", floor($min / 60));
+    $min = sprintf("%02d", $min % 60);
+    echo '<span class="item-count"> ('.$hour.':'.$min.':'.$sec.')</span>';
 } ?>
 <form method="post" id="reorder_playlist_<?php echo $playlist->id; ?>">
     <table id="reorder_playlist_table" class="tabledata <?php echo $browse->get_css_class() ?>" cellpadding="0" cellspacing="0" data-objecttype="media">
@@ -107,4 +113,5 @@ $web_path = AmpConfig::get('web_path');
 <?php show_table_render($argument); ?>
 <?php if ($browse->get_show_header()) {
         require AmpConfig::get('prefix') . UI::find_template('list_header.inc.php');
+        echo '<span class="item-count"> ('.$hour.':'.$min.':'.$sec.')</span>';
     } ?>
