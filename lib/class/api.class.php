@@ -814,7 +814,7 @@ class Api
             case 'prev':
             case 'play':
             case 'stop':
-                $result_status = $localplay->$input['command']();
+                $result_status = $localplay->{$input['command']}();
                 $xml_array     = array('localplay' => array('command' => array($input['command'] => make_bool($result_status))));
                 echo XML_Data::keyed_array($xml_array);
             break;
