@@ -186,7 +186,7 @@ class AmpacheMpd extends localplay_controller
      */
     public function get_instance($instance='')
     {
-        $instance = $instance ? $instance : AmpConfig::get('mpd_active');
+        $instance = $instance ? $instance : $this->get_active_instance();
         $instance = Dba::escape($instance);
 
         $sql        = "SELECT * FROM `localplay_mpd` WHERE `id`='$instance'";
@@ -256,6 +256,24 @@ class AmpacheMpd extends localplay_controller
      */
     public function get_active_instance()
     {
+        $uid = AmpConfig::get('mpd_active');
+        if ($uid) {
+            return $uid;
+        }
+
+        // Not an admin? bubkiss!
+        if (!$GLOBALS['user']->has_access('100')) {
+            $user_id = $GLOBALS['user']->id;
+        }
+
+        $user_id = $user_id ? $user_id : $GLOBALS['user']->id;
+
+        $uid = Preference::get_by_user($user_id, 'mpd_active');
+        if ($uid) {
+            AmpConfig::set('mpd_active', intval($uid), true);
+        }
+
+        return $uid;
     } // get_active_instance
 
     /**
