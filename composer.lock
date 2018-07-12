@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "10812742cd79fb6789a0f6f82afb5523",
+    "content-hash": "085ca30ae912730ce08213ee213ce228",
     "packages": [
         {
             "name": "Afterster/php-echonest-api",
@@ -1117,13 +1117,13 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/JamesHeinrich/getID3.git",
-                "reference": "19bb4c8440119772ce4ed5007e61f0e64dc7e8d3"
+                "url": "https://github.com/sdrik/getID3.git",
+                "reference": "9348bdf53eee674b53b52bfe43350a4b291cd4d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/19bb4c8440119772ce4ed5007e61f0e64dc7e8d3",
-                "reference": "19bb4c8440119772ce4ed5007e61f0e64dc7e8d3",
+                "url": "https://api.github.com/repos/sdrik/getID3/zipball/9348bdf53eee674b53b52bfe43350a4b291cd4d8",
+                "reference": "9348bdf53eee674b53b52bfe43350a4b291cd4d8",
                 "shasum": ""
             },
             "require": {
@@ -1138,7 +1138,14 @@
                     "getid3/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "lint": [
+                    "parallel-lint --exclude vendor ."
+                ],
+                "test": [
+                    "composer lint"
+                ]
+            },
             "license": [
                 "GPL-1.0-or-later",
                 "LGPL-3.0-only",
@@ -1151,7 +1158,10 @@
                 "php",
                 "tags"
             ],
-            "time": "2018-02-18T15:41:56+00:00"
+            "support": {
+                "source": "https://github.com/sdrik/getID3/tree/master"
+            },
+            "time": "2018-07-12T19:50:33+00:00"
         },
         {
             "name": "jeromeetienne/jquery-qrcode",
@@ -1357,7 +1367,7 @@
                     ]
                 }
             },
-            "time": "2017-06-27T10:48:51+00:00"
+            "time": "2015-06-13T00:50:21+00:00"
         },
         {
             "name": "kunalvarma05/dropbox-php-sdk",
@@ -2482,6 +2492,7 @@
             "keywords": [
                 "Socket"
             ],
+            "abandoned": "react/socket",
             "time": "2016-12-06T10:54:49+00:00"
         },
         {
