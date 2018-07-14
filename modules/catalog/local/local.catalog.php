@@ -728,10 +728,21 @@ class Catalog_local extends Catalog
         }
 
         if (count($this->get_gather_types('music')) > 0) {
-            if (AmpConfig::get('catalog_check_duplicate')) {
-                if (Song::find($results)) {
-                    debug_event('catalog', 'Song already found, skipped to avoid duplicate', 5);
-
+            $oldsong = Song::find($results);
+            if ($oldsong) {
+                $oldsong = new Song($oldsong);
+                if (file_exists($oldsong->file)) {
+                    if (AmpConfig::get('catalog_check_duplicate')) {
+                        debug_event('catalog', 'Song already found, skipped to avoid duplicate', 5);
+                        return false;
+                    }
+                } else {
+                    debug_event('catalog', 'Detected song rename from '.$oldsong->file.' to '.$file, 5);
+                    if (isset($this->_filecache[strtolower($oldsong->file)])) {
+                        unset($this->_filecache[strtolower($oldsong->file)]);
+                    }
+                    $this->_filecache[strtolower($file)] = $oldsong->id;
+                    Song::update_file($file, $oldsong->id);
                     return false;
                 }
             }

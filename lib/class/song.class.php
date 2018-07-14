@@ -1166,6 +1166,17 @@ class Song extends database_object implements media, library_item
     } // update_title
 
     /**
+     * update_file
+     * sets the file field
+     * @param string $new_file
+     * @param int $song_id
+     */
+    public static function update_file($new_file, $song_id)
+    {
+        self::_update_item('file', $new_file, $song_id, 0, false);
+    } // update_file
+
+    /**
      * update_composer
      * updates the composer field
      * @param string $new_value
