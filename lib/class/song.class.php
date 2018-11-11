@@ -729,8 +729,16 @@ class Song extends database_object implements media, library_item
     {
         $sql_base = "SELECT `song`.`id` FROM `song`";
         if ($data['mb_trackid']) {
-            $sql        = $sql_base . " WHERE `song`.`mbid` = ? LIMIT 1";
-            $db_results = Dba::read($sql, array($data['mb_trackid']));
+            $sql    = $sql_base;
+            $where  = "WHERE `song`.`mbid` = ?";
+            $params = array($data['mb_trackid']);
+            if($data['mb_albumid']) {
+                $sql     .= " INNER JOIN `album` ON `album`.`id` = `song`.`album`";
+                $where   .= " AND `album`.`mbid` = ?";
+                $params[] = $data['mb_albumid'];
+            }
+            $sql .= $where . " LIMIT 1";
+            $db_results = Dba::read($sql, $params);
             if ($results = Dba::fetch_assoc($db_results)) {
                 return $results['id'];
             }
