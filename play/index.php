@@ -566,7 +566,9 @@ if (!is_resource($fp)) {
 if (!$transcode) {
     header('ETag: ' . $media->id);
 }
-Stream::insert_now_playing($media->id, $uid, $media->time, $sid, get_class($media));
+if (!isset($_REQUEST['noplay'])) {
+    Stream::insert_now_playing($media->id, $uid, $media->time, $sid, get_class($media));
+}
 
 // Handle Content-Range
 
@@ -613,7 +615,7 @@ if (!isset($_REQUEST['segment'])) {
         debug_event('play', 'Content-Range doesn\'t start from 0, stats should already be registered previously; not collecting stats', 5);
     } else {
         if (!$share_id) {
-            if ($_SERVER['REQUEST_METHOD'] != 'HEAD') {
+            if (!isset($_REQUEST['noplay']) && $_SERVER['REQUEST_METHOD'] != 'HEAD') {
                 debug_event('play', 'Registering stream stats for {' . $media->get_stream_name() . '}...', 5);
                 $sessionkey = $sid ?: Stream::get_session();
                 $agent      = Session::agent($sessionkey);
